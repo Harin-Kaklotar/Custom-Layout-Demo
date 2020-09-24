@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         app:squareColor="@color/colorSquare"
-        app:squareSize="250dp" />
+        app:squareSize="150dp" />
 
     <Button
         android:id="@+id/btn_swap"

@@ -19,6 +19,7 @@ public class RectangleDemo extends View {
     private Paint mPaintRect;
     private int mSquareColor;
     private int mSquareSize;
+    private Paint mPaintCircle;
 
     public RectangleDemo(Context context) {
         super(context);
@@ -44,6 +45,10 @@ public class RectangleDemo extends View {
         mSquareRect = new Rect();
         mPaintRect = new Paint(Paint.ANTI_ALIAS_FLAG);
 
+        mPaintCircle = new Paint();
+        mPaintCircle.setAntiAlias(true);
+
+        mPaintCircle.setColor(Color.parseColor("#87BCD8"));
 
         if (attrs == null)
             return;
@@ -67,8 +72,14 @@ public class RectangleDemo extends View {
         mSquareRect.right = mSquareRect.left + mSquareSize;
         mSquareRect.bottom = mSquareRect.top + mSquareSize;
 
+        float cx, cy;
+        float radius = 100f;
+
+        cx = getWidth() - radius - 50;
+        cy = mSquareRect.top + (mSquareRect.height()/2);
 
         canvas.drawRect(mSquareRect, mPaintRect);
+        canvas.drawCircle(cx, cy, radius, mPaintCircle);
     }
 
     public void swipeColor() {
