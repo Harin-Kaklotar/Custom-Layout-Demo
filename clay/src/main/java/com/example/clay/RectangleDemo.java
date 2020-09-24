@@ -1,6 +1,7 @@
 package com.example.clay;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -16,6 +17,8 @@ public class RectangleDemo extends View {
     private static final int SQUARE_SIZE = 200;
     private Rect mSquareRect;
     private Paint mPaintRect;
+    private int mSquareColor;
+    private int mSquareSize;
 
     public RectangleDemo(Context context) {
         super(context);
@@ -40,7 +43,19 @@ public class RectangleDemo extends View {
     private void init(@NonNull AttributeSet attrs) {
         mSquareRect = new Rect();
         mPaintRect = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaintRect.setColor(Color.GREEN);
+
+
+        if (attrs == null)
+            return;
+
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.RectangleDemo);
+
+        mSquareColor = typedArray.getColor(R.styleable.RectangleDemo_squareColor, Color.RED);
+        mSquareSize = typedArray.getDimensionPixelSize(R.styleable.RectangleDemo_squareSize, SQUARE_SIZE);
+
+        mPaintRect.setColor(mSquareColor);
+
+        typedArray.recycle();
     }
 
     @Override
@@ -49,15 +64,15 @@ public class RectangleDemo extends View {
 
         mSquareRect.left = 50;
         mSquareRect.top = 50;
-        mSquareRect.right = mSquareRect.left + SQUARE_SIZE;
-        mSquareRect.bottom = mSquareRect.top + SQUARE_SIZE;
+        mSquareRect.right = mSquareRect.left + mSquareSize;
+        mSquareRect.bottom = mSquareRect.top + mSquareSize;
 
 
         canvas.drawRect(mSquareRect, mPaintRect);
     }
 
     public void swipeColor() {
-        mPaintRect.setColor(mPaintRect.getColor() == Color.RED ? Color.GREEN : Color.RED);
+        mPaintRect.setColor(mPaintRect.getColor() == mSquareColor ? Color.RED : mSquareColor);
         postInvalidate();
     }
 }
