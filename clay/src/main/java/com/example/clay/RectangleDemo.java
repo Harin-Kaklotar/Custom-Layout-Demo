@@ -96,7 +96,16 @@ public class RectangleDemo extends View {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
-                
+
+                float x = event.getX();
+                float y = event.getY();
+
+                if (mSquareRect.left < x && mSquareRect.right > x)
+                    if (mSquareRect.top < y && mSquareRect.bottom > y){
+                        mCircleRadius += 10f;
+                        postInvalidate();
+                    }
+
                 return true;
             }
 
