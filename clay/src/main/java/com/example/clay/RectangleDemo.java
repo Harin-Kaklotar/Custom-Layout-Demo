@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,8 @@ public class RectangleDemo extends View {
     private int mSquareColor;
     private int mSquareSize;
     private Paint mPaintCircle;
+    private float mCircleX, mCircleY;
+    private float mCircleRadius = 100f;
 
     public RectangleDemo(Context context) {
         super(context);
@@ -72,18 +75,51 @@ public class RectangleDemo extends View {
         mSquareRect.right = mSquareRect.left + mSquareSize;
         mSquareRect.bottom = mSquareRect.top + mSquareSize;
 
-        float cx, cy;
-        float radius = 100f;
-
-        cx = getWidth() - radius - 50;
-        cy = mSquareRect.top + (mSquareRect.height()/2);
-
         canvas.drawRect(mSquareRect, mPaintRect);
-        canvas.drawCircle(cx, cy, radius, mPaintCircle);
+
+        if (mCircleX == 0 || mCircleY == 0) {
+            mCircleX = getWidth() / 2;
+            mCircleY = getHeight() / 2;
+        }
+
+        canvas.drawCircle(mCircleX, mCircleY, mCircleRadius, mPaintCircle);
     }
 
     public void swipeColor() {
         mPaintRect.setColor(mPaintRect.getColor() == mSquareColor ? Color.RED : mSquareColor);
         postInvalidate();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        boolean value = super.onTouchEvent(event);
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN: {
+                
+                return true;
+            }
+
+            case MotionEvent.ACTION_MOVE: {
+
+                float x = event.getX();
+                float y = event.getY();
+
+                double dx = Math.pow(x - mCircleX, 2);
+                double dy = Math.pow(y - mCircleY, 2);
+
+                if (dx + dy < Math.pow(mCircleRadius, 2)) {
+                    // Touched
+                    mCircleX = x;
+                    mCircleY = y;
+                    postInvalidate();
+                    return true;
+                }
+
+                return value;
+            }
+        }
+
+        return value;
     }
 }

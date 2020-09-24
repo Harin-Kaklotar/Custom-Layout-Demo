@@ -15,9 +15,9 @@
     <com.example.clay.RectangleDemo
         android:id="@+id/rectangles"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="350dp"
         app:squareColor="@color/colorSquare"
-        app:squareSize="150dp" />
+        app:squareSize="100dp" />
 
     <Button
         android:id="@+id/btn_swap"
