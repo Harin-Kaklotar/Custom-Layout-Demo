@@ -13,7 +13,9 @@ import androidx.annotation.Nullable;
 
 public class RectangleDemo extends View {
 
-    private static final int SQUARE_SIZE = 100;
+    private static final int SQUARE_SIZE = 200;
+    private Rect mSquareRect;
+    private Paint mPaintRect;
 
     public RectangleDemo(Context context) {
         super(context);
@@ -36,22 +38,26 @@ public class RectangleDemo extends View {
     }
 
     private void init(@NonNull AttributeSet attrs) {
-
+        mSquareRect = new Rect();
+        mPaintRect = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPaintRect.setColor(Color.GREEN);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        Rect rect = new Rect();
-        rect.left = 10;
-        rect.top = 10;
-        rect.right = rect.left + SQUARE_SIZE;
-        rect.bottom = rect.top + SQUARE_SIZE;
+        mSquareRect.left = 50;
+        mSquareRect.top = 50;
+        mSquareRect.right = mSquareRect.left + SQUARE_SIZE;
+        mSquareRect.bottom = mSquareRect.top + SQUARE_SIZE;
 
-        Paint paint = new Paint();
-        paint.setColor(Color.GREEN);
 
-        canvas.drawRect(rect, paint);
+        canvas.drawRect(mSquareRect, mPaintRect);
+    }
+
+    public void swipeColor() {
+        mPaintRect.setColor(mPaintRect.getColor() == Color.RED ? Color.GREEN : Color.RED);
+        postInvalidate();
     }
 }
